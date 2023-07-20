@@ -29,7 +29,7 @@ LDFLAGS=-buildid= -X sigs.k8s.io/release-utils/version.gitVersion=$(GIT_VERSION)
         -X sigs.k8s.io/release-utils/version.buildDate=$(BUILD_DATE)
 
 
-KO_PREFIX ?= ghcr.io/openvex
+KO_PREFIX ?= ghcr.io/cpanato
 export KO_DOCKER_REPO=$(KO_PREFIX)
 
 ## Build
