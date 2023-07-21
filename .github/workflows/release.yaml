@@ -19,7 +19,11 @@ jobs:
 
     env:
       GO111MODULE: on
-      COSIGN_EXPERIMENTAL: "true"
+      COSIGN_YES: "true"
+
+    outputs:
+      hashes: ${{ steps.hash.outputs.hashes }}
+      tag_name: ${{ steps.tag.outputs.tag_name }}
 
     steps:
       - name: Check out code onto GOPATH
@@ -70,12 +74,20 @@ jobs:
           checksum_file=$(echo "$ARTIFACTS" | jq -r '.[] | select (.type=="Checksum") | .path')
           echo "hashes=$(cat $checksum_file | base64 -w0)" >> "$GITHUB_OUTPUT"
 
+      - name: copy-signed-release-to-ghcr
+        run: make build-sign-release-images || true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
   provenance:
-    needs: [release]
+    needs:
+      - release
+
     permissions:
       actions: read # To read the workflow path.
       id-token: write # To sign the provenance.
       contents: write # To add assets to a release.
+
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.7.0
     with:
       base64-subjects: "${{ needs.release.outputs.hashes }}"
