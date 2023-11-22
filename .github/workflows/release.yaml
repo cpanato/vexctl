@@ -85,7 +85,7 @@ jobs:
         uses: puerco/release-actions/setup-tejolote@dd08496c83441d6477114cc0555b96d404dacff7 # v0.1.2
 
       - run: |
-          tejolote attest --artifacts github://openvex/vexctl/${{ steps.tag.outputs.tag_name }} github://openvex/vexctl/"${GITHUB_RUN_ID}" --output vexctl.intoto.json --sign
+          tejolote attest --artifacts github://cpanato/vexctl/${{ steps.tag.outputs.tag_name }} github://cpanato/vexctl/"${GITHUB_RUN_ID}" --output vexctl.intoto.json --sign
 
       - name: Release
         uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
@@ -94,4 +94,4 @@ jobs:
           tag_name: "${{ steps.tag.outputs.tag_name }}"
           token: ${{ secrets.GITHUB_TOKEN }}
         env:
-          GITHUB_REPOSITORY: openvex/vexctl
+          GITHUB_REPOSITORY: cpanato/vexctl

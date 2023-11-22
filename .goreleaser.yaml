@@ -9,8 +9,8 @@ before:
     - go mod tidy
     - /bin/bash -c 'if [ -n "$(git --no-pager diff --exit-code go.mod go.sum)" ]; then exit 1; fi'
 
-gomod:
-  proxy: true
+# gomod:
+#   proxy: true
 
 builds:
   - id: binaries
